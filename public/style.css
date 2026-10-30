@@ -1,0 +1,299 @@
+/* 두 화면(첫 화면, 도시 날씨 화면)이 함께 쓰는 꾸미기 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  background: linear-gradient(160deg, #6fb1fc, #4364f7);
+  color: #1f2937;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px 16px;
+}
+
+.app {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: background 1s;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 0 0 10px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 예시 데이터 / 미리보기 표시 */
+.badge {
+  width: fit-content;
+  margin: 0 auto 16px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.85rem;
+}
+
+.badge.preview {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+/* 안내 메시지 */
+.message {
+  text-align: center;
+  color: #64748b;
+  margin: 16px 0;
+}
+
+.message.error {
+  color: #dc2626;
+}
+
+/* ---------- 첫 화면: 검색 ---------- */
+.search-form {
+  display: flex;
+  gap: 8px;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.search-form button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #4364f7;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.search-form button:hover {
+  background: #2f4fd8;
+}
+
+/* 자동완성 목록: 검색칸 바로 아래에 겹쳐서 보여요 */
+.suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.suggestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.suggestion:hover,
+.suggestion.active {
+  background: #eef2ff;
+}
+
+.suggestion mark {
+  background: none;
+  color: #4364f7;
+  font-weight: bold;
+}
+
+.suggestion-en {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.suggestion-where {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.suggestion-empty {
+  padding: 8px 12px;
+  color: #94a3b8;
+}
+
+/* 최근에 본 도시, 추천 도시 */
+.chip-section {
+  margin-top: 20px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 6px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: inherit;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.chip:hover {
+  background: #e2e8f0;
+}
+
+/* ---------- 도시 날씨 화면 ---------- */
+.back-link {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #4364f7;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.current {
+  text-align: center;
+  margin: 12px 0 20px;
+}
+
+.place {
+  font-size: 2rem;
+  margin: 8px 0 0;
+}
+
+.country {
+  margin: 0 0 8px;
+  color: #64748b;
+}
+
+.current-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.big-icon {
+  font-size: 3.5rem;
+}
+
+.big-temp {
+  font-size: 3.2rem;
+  font-weight: bold;
+}
+
+.desc {
+  margin: 4px 0 12px;
+  font-size: 1.2rem;
+  color: #475569;
+}
+
+.details {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.details div {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* 5일 예보 카드 */
+.forecast {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.day-card {
+  text-align: center;
+  padding: 10px 4px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid #e2e8f0;
+}
+
+.day-card .day {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.day-card .icon {
+  font-size: 1.8rem;
+  margin: 4px 0;
+}
+
+.day-card .temps {
+  font-size: 0.85rem;
+}
+
+.day-card .min {
+  color: #64748b;
+}
+
+/* 휴대폰처럼 좁은 화면 */
+@media (max-width: 480px) {
+  .forecast {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.credit {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.credit a {
+  color: inherit;
+}

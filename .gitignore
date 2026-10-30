@@ -3,6 +3,15 @@
 # 비밀 값(API 키 등)이 들어가는 파일
 .env
 .env.*
+# 견본 파일은 비밀 값이 없으니 올립니다
+!.env.example
+
+# Vercel이 프로젝트 연결 정보를 저장하는 폴더
+.vercel/
+
+# Playwright 실습에서 생긴 파일
+screenshots/
+.playwright-mcp/
 
 # 나중에 Node.js를 쓰면 생기는 설치 폴더
 node_modules/

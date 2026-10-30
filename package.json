@@ -1,0 +1,14 @@
+{
+  "name": "weather-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "도시 이름으로 현재 날씨를 보여주는 날씨 대시보드",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "devDependencies": {
+    "vercel": "^65.8.0"
+  }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>도시 날씨</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="effects.css">
+</head>
+<body>
+  <!-- 비·눈·안개가 화면 전체에 그려지는 층 (클릭을 막지 않아요) -->
+  <div id="fx-layer" class="fx-layer" aria-hidden="true"></div>
+
+  <main class="app">
+    <a href="index.html" class="back-link">← 다른 도시 찾기</a>
+
+    <p id="source-badge" class="badge hidden"></p>
+    <p id="preview-badge" class="badge preview hidden"></p>
+
+    <p id="message" class="message">불러오는 중...</p>
+
+    <!-- 현재 날씨: data-fx-text가 붙은 글자에 날씨 연출이 들어갑니다 -->
+    <section id="current" class="current hidden">
+      <h1 id="place" class="place" data-fx-text></h1>
+      <p id="country" class="country"></p>
+      <div class="current-main">
+        <span id="current-icon" class="big-icon"></span>
+        <span id="current-temp" class="big-temp" data-fx-text></span>
+      </div>
+      <p id="current-desc" class="desc" data-fx-text></p>
+      <div class="details">
+        <div><span class="label">습도</span><span id="humidity"></span></div>
+        <div><span class="label">바람</span><span id="wind"></span></div>
+      </div>
+    </section>
+
+    <section id="forecast-section" class="hidden">
+      <h2>5일 예보</h2>
+      <div id="forecast" class="forecast"></div>
+    </section>
+
+    <footer class="credit">
+      날씨 정보: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>
+    </footer>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="effects.js"></script>
+  <script src="city.js"></script>
+</body>
+</html>

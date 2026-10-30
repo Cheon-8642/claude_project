@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>날씨 대시보드</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <h1>날씨 대시보드</h1>
+
+    <!-- 지금 보이는 데이터가 예시인지 실제인지 알려주는 표시 -->
+    <p id="source-badge" class="badge hidden"></p>
+
+    <!-- 도시 검색 칸 + 자동완성 목록 -->
+    <form id="search-form" class="search-form" autocomplete="off">
+      <div class="search-box">
+        <input id="city-input" type="text" placeholder="도시 이름 (예: s, 서울, Tokyo)"
+               role="combobox" aria-expanded="false" aria-controls="suggestions" aria-autocomplete="list">
+        <ul id="suggestions" class="suggestions hidden" role="listbox"></ul>
+      </div>
+      <button type="submit">검색</button>
+    </form>
+
+    <!-- 안내 / 오류 메시지 -->
+    <p id="message" class="message hidden"></p>
+
+    <!-- 최근에 본 도시 -->
+    <section id="recent-section" class="chip-section hidden">
+      <h2>최근에 본 도시</h2>
+      <div id="recent" class="chips"></div>
+    </section>
+
+    <!-- 추천 도시 -->
+    <section class="chip-section">
+      <h2>추천 도시</h2>
+      <div id="popular" class="chips"></div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
