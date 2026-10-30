@@ -2,6 +2,8 @@
 
 도시 이름 몇 글자만 입력하면 도시를 찾아 주고, 날씨에 따라 화면이 바뀌는 웹사이트입니다. 자세한 기획은 [PRD.md](PRD.md)를 보세요.
 
+**배포 주소:** https://claudeproject-jet.vercel.app (지금은 예시 데이터 모드)
+
 ## 처음 한 번만: 설치
 
 [Node.js](https://nodejs.org/)가 설치되어 있어야 합니다.
