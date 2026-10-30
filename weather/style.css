@@ -1,0 +1,198 @@
+/* 기본 색과 글꼴 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  background: linear-gradient(160deg, #6fb1fc, #4364f7);
+  color: #1f2937;
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.app {
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin: 0 0 12px;
+}
+
+/* 검색 칸 */
+.search-form {
+  display: flex;
+  gap: 8px;
+}
+
+.search-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.search-form button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #4364f7;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.search-form button:hover {
+  background: #2f4fd8;
+}
+
+/* 최근 검색 도시 */
+.recent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.recent button {
+  padding: 4px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #f1f5f9;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.recent button:hover {
+  background: #e2e8f0;
+}
+
+/* 안내 메시지 */
+.message {
+  text-align: center;
+  color: #64748b;
+  margin: 20px 0;
+}
+
+.message.error {
+  color: #dc2626;
+}
+
+/* 숨기기 */
+.hidden {
+  display: none;
+}
+
+/* 현재 날씨 */
+.current {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 12px;
+  background: #f0f6ff;
+}
+
+.current-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.big-icon {
+  font-size: 3.5rem;
+}
+
+.big-temp {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.desc {
+  margin: 4px 0 12px;
+  color: #475569;
+}
+
+.details {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.details div {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* 5일 예보 카드 */
+.forecast {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.day-card {
+  text-align: center;
+  padding: 10px 4px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.day-card .day {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.day-card .icon {
+  font-size: 1.8rem;
+  margin: 4px 0;
+}
+
+.day-card .temps {
+  font-size: 0.85rem;
+}
+
+.day-card .min {
+  color: #64748b;
+}
+
+/* 휴대폰처럼 좁은 화면 */
+@media (max-width: 480px) {
+  .forecast {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.credit {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.credit a {
+  color: inherit;
+}

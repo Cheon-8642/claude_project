@@ -1,0 +1,13 @@
+# GitHub에 올리지 않을 파일 목록
+
+# 비밀 값(API 키 등)이 들어가는 파일
+.env
+.env.*
+
+# 나중에 Node.js를 쓰면 생기는 설치 폴더
+node_modules/
+
+# 운영체제가 자동으로 만드는 파일
+Thumbs.db
+desktop.ini
+.DS_Store

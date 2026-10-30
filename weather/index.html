@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>날씨 대시보드</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <h1>날씨 대시보드</h1>
+
+    <!-- 도시 검색 칸 -->
+    <form id="search-form" class="search-form">
+      <input id="city-input" type="text" placeholder="도시 이름 (예: 서울, 부산, Tokyo)" autocomplete="off">
+      <button type="submit">검색</button>
+    </form>
+
+    <!-- 최근에 검색한 도시 -->
+    <div id="recent" class="recent"></div>
+
+    <!-- 안내 / 오류 메시지 -->
+    <p id="message" class="message">도시 이름을 입력하고 검색해 보세요.</p>
+
+    <!-- 현재 날씨 -->
+    <section id="current" class="current hidden">
+      <h2 id="place"></h2>
+      <div class="current-main">
+        <span id="current-icon" class="big-icon"></span>
+        <span id="current-temp" class="big-temp"></span>
+      </div>
+      <p id="current-desc" class="desc"></p>
+      <div class="details">
+        <div><span class="label">습도</span><span id="humidity"></span></div>
+        <div><span class="label">바람</span><span id="wind"></span></div>
+      </div>
+    </section>
+
+    <!-- 5일 예보 -->
+    <section id="forecast-section" class="hidden">
+      <h2>5일 예보</h2>
+      <div id="forecast" class="forecast"></div>
+    </section>
+
+    <footer class="credit">
+      날씨 정보: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
