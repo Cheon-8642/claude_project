@@ -1,6 +1,6 @@
-# 날씨 대시보드
+# 세계 날씨 지도
 
-도시 이름 몇 글자만 입력하면 도시를 찾아 주고, 날씨에 따라 화면이 바뀌는 웹사이트입니다. 자세한 기획은 [PRD.md](PRD.md)를 보세요.
+세계지도에서 나라를 누르면(또는 나라 이름을 검색하면) 그 나라 수도의 날씨를 보여 주고, 날씨에 따라 화면이 바뀌는 웹사이트입니다. 자세한 기획은 [PRD.md](PRD.md)를 보세요.
 
 **배포 주소:** https://claudeproject-jet.vercel.app (실제 날씨, Vercel 환경 변수 `WEATHER_DATA_SOURCE=open-meteo`)
 
@@ -32,12 +32,12 @@ npm run dev
 
 | 값 | 내용 |
 |---|---|
-| `sample` | 예시 데이터 8개 도시. 인터넷 없이 동작. 대구=더위, 광주·제주=비, 인천=눈, 대전=안개 |
-| `open-meteo` | 실제 날씨. 주요 도시 36곳 + 전 세계 도시 검색 |
+| `sample` | 예시 날씨. 인터넷 없이 동작. 수도 중에서는 서울·도쿄만 예시 데이터가 있어요 |
+| `open-meteo` | 실제 날씨. 모든 나라의 수도 |
 
 ## 날씨 연출 미리보기
 
-도시 날씨 화면 주소 끝에 `&preview=hot` (또는 `rain`, `snow`, `fog`)를 붙이면 실제 날씨와 상관없이 그 연출을 볼 수 있습니다.
+수도 날씨 화면 주소 끝에 `&preview=hot` (또는 `rain`, `snow`, `fog`)를 붙이면 실제 날씨와 상관없이 그 연출을 볼 수 있습니다.
 
 윈도우 "애니메이션 효과" 설정(설정 → 접근성 → 시각 효과)이 꺼져 있으면, 연출이 움직이지 않는 모습으로만 나옵니다.
 
@@ -45,7 +45,9 @@ npm run dev
 
 | 위치 | 역할 |
 |---|---|
-| `public/` | 화면 파일. `index.html`(첫 화면), `city.html`(도시 날씨), `effects.*`(날씨 연출) |
+| `public/` | 화면 파일. `index.html`(첫 화면 세계지도), `city.html`(수도 날씨), `effects.*`(날씨 연출) |
+| `public/data/` | 미리 저장해 둔 데이터. `countries.json`(나라·수도·Wikidata 번호, Wikidata), `countries-110m.json`(세계지도 모양, Natural Earth) |
+| `scripts/` | 데이터를 다시 만드는 스크립트. `node scripts/build-countries.mjs`를 실행하면 `countries.json`을 새로 받아요 |
 | `api/` | 서버 함수. 파일 하나가 주소 하나가 됩니다 (`api/weather.js` → `/api/weather`) |
 | `lib/` | 서버 함수가 함께 쓰는 코드와 데이터. `api/` 안에 두면 각각 서버 함수가 되어 버려서 따로 둡니다 |
 
@@ -53,9 +55,9 @@ npm run dev
 
 | 주소 | 돌려주는 것 |
 |---|---|
-| `GET /api/cities?q=s` | 이름에 `s`가 들어간 도시 목록 (자동완성) |
-| `GET /api/cities` | 추천 도시 목록 |
-| `GET /api/weather?id=seoul&lat=37.566&lon=126.9784` | 현재 날씨 + 5일 예보 |
+| `GET /api/weather?id=seoul&lat=37.56&lon=126.99` | 현재 날씨 + 5일 예보 |
+
+나라 목록과 지도 모양은 `public/data/`의 파일을 화면이 바로 읽어서, 서버 함수가 필요 없어요.
 
 ## 배포 (Vercel)
 

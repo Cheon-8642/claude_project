@@ -3,20 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>날씨 대시보드</title>
+  <title>세계 날씨 지도</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <main class="app">
-    <h1>날씨 대시보드</h1>
+<body class="home">
+  <main class="app wide">
+    <h1>세계 날씨 지도</h1>
 
-    <!-- 지금 보이는 데이터가 예시인지 실제인지 알려주는 표시 -->
-    <p id="source-badge" class="badge hidden"></p>
-
-    <!-- 도시 검색 칸 + 자동완성 목록 -->
+    <!-- 나라 검색칸 + 자동완성 목록 (지도에서 누르기 힘든 작은 나라도 찾을 수 있게) -->
     <form id="search-form" class="search-form" autocomplete="off">
       <div class="search-box">
-        <input id="city-input" type="text" placeholder="도시 이름 (예: s, 서울, Tokyo)"
+        <input id="country-input" type="text" placeholder="나라 이름 (예: 대한민국, 독일, Japan)"
                role="combobox" aria-expanded="false" aria-controls="suggestions" aria-autocomplete="list">
         <ul id="suggestions" class="suggestions hidden" role="listbox"></ul>
       </div>
@@ -26,19 +23,52 @@
     <!-- 안내 / 오류 메시지 -->
     <p id="message" class="message hidden"></p>
 
-    <!-- 최근에 본 도시 -->
+    <!-- 최근에 본 나라 -->
     <section id="recent-section" class="chip-section hidden">
-      <h2>최근에 본 도시</h2>
+      <h2>최근에 본 나라</h2>
       <div id="recent" class="chips"></div>
     </section>
 
-    <!-- 추천 도시 -->
-    <section class="chip-section">
-      <h2>추천 도시</h2>
-      <div id="popular" class="chips"></div>
+    <!-- 세계지도: 나라를 누르면 그 나라 수도의 날씨 화면으로 이동해요 -->
+    <section class="map-section">
+      <p class="map-hint">나라를 누르면 수도의 날씨를 볼 수 있어요. 두 손가락이나 마우스 휠로 확대할 수 있어요.</p>
+      <div id="map" class="map">
+        <p id="map-loading" class="message">지도를 불러오는 중...</p>
+        <div id="map-tooltip" class="map-tooltip hidden"></div>
+        <div class="map-zoom">
+          <button type="button" id="zoom-in" aria-label="지도 확대">+</button>
+          <button type="button" id="zoom-out" aria-label="지도 축소">−</button>
+          <button type="button" id="zoom-reset" aria-label="지도 처음 크기로">⟲</button>
+        </div>
+        <!-- 지도 왼쪽 아래: 나라와 상관없이, 과거의 오늘 있었던 일 (휴대폰에서는 지도 아래) -->
+        <aside id="world-today" class="world-today" data-size="normal" aria-labelledby="world-today-title">
+          <!-- 휴대폰에서만 보이는 손잡이: 위로 밀면 펼치고, 아래로 밀면 접어요 (눌러도 돼요) -->
+          <button type="button" id="sheet-handle" class="sheet-handle" aria-expanded="false" aria-label="오늘의 역사 펼치기">
+            <span aria-hidden="true"></span>
+          </button>
+          <div class="world-today-head">
+            <h2 id="world-today-title" class="history-tab">오늘의 역사 <span id="world-today-label" class="history-when"></span></h2>
+            <!-- 상자 크기 조절: 작게 / 크게 / 최소화 / 원래대로 -->
+            <div class="world-today-controls">
+              <button type="button" data-action="shrink" aria-label="오늘의 역사 상자 작게" title="작게">−</button>
+              <button type="button" data-action="expand" aria-label="오늘의 역사 상자 크게" title="크게">+</button>
+              <button type="button" data-action="minimize" aria-label="오늘의 역사 상자 최소화" title="최소화">▁</button>
+              <button type="button" data-action="restore" aria-label="오늘의 역사 상자 원래대로" title="원래대로">↺</button>
+            </div>
+          </div>
+          <div class="world-today-body">
+            <p id="world-today-message" class="history-message">불러오는 중...</p>
+            <ul id="world-today-list" class="history-list"></ul>
+          </div>
+        </aside>
+      </div>
+      <p class="credit">지도: Natural Earth · 나라·수도 정보와 역사: Wikidata, 한국어 위키백과</p>
     </section>
   </main>
 
+  <!-- 지도를 그리는 도구: D3(지도 그리기), TopoJSON(지도 데이터 풀기) -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
   <script src="common.js"></script>
   <script src="app.js"></script>
 </body>

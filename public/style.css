@@ -7,7 +7,7 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-  background: linear-gradient(160deg, #6fb1fc, #4364f7);
+  background: linear-gradient(160deg, #c4ecff, #6cc4f0); /* 기본: 하늘색 */
   color: #1f2937;
   display: flex;
   justify-content: center;
@@ -181,7 +181,383 @@ h2 {
   background: #e2e8f0;
 }
 
-/* ---------- 도시 날씨 화면 ---------- */
+/* ---------- 첫 화면: 세계지도 ---------- */
+.app.wide {
+  max-width: 1000px;
+}
+
+.map-section {
+  margin-top: 20px;
+}
+
+.map-hint {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.map {
+  position: relative;
+  border-radius: 12px;
+  background: #eaf2ff;
+  overflow: hidden;
+  touch-action: none; /* 두 손가락 확대를 지도가 직접 처리하도록 */
+}
+
+.map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.map .sphere {
+  fill: #cfe3fb;
+  pointer-events: none; /* 바다 배경이 나라 클릭을 가로막지 않게 */
+}
+
+.map .country {
+  stroke: #ffffff;
+  stroke-width: 0.5;
+  vector-effect: non-scaling-stroke; /* 확대해도 경계선 굵기는 그대로 */
+}
+
+.map .country.clickable {
+  fill: #9bb7e0;
+  cursor: pointer;
+}
+
+.map .country.clickable:hover,
+.map .country.clickable:focus {
+  fill: #4364f7;
+  outline: none;
+}
+
+.map .country.disabled {
+  fill: #e2e8f0;
+}
+
+.map-tooltip {
+  position: absolute;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #ffffff;
+  font-size: 0.85rem;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.map-zoom {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.map-zoom button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.map-zoom button:hover {
+  background: #f1f5f9;
+}
+
+/* ---------- 역사 (첫 화면 왼쪽 아래, 수도 날씨 화면 아래쪽) ---------- */
+.history-tab {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 6px 12px;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 3px solid #4364f7;
+  background: #eef2ff;
+  font-size: 1rem;
+}
+
+.history-when {
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #64748b;
+}
+
+.history-message {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.history-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.history-date {
+  flex-shrink: 0;
+  min-width: 4.5em;
+  color: #475569;
+  font-variant-numeric: tabular-nums;
+}
+
+.history-item a {
+  color: #1e40af;
+  text-decoration: none;
+}
+
+.history-item a:hover {
+  text-decoration: underline;
+}
+
+.history-extra {
+  width: 100%;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* 수도 날씨 화면: 오늘의 역사 → 그 아래 이번 주의 역사 */
+.history-section {
+  margin-top: 24px;
+}
+
+.history-block + .history-block {
+  margin-top: 20px;
+}
+
+/* 첫 화면: 지도 왼쪽 아래에 겹쳐 놓는 상자 */
+.world-today {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  width: min(320px, 45%);
+  max-height: 55%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: width 0.2s, max-height 0.2s;
+}
+
+/* 상자 크기: 작게 / 보통(처음) / 크게 */
+.world-today[data-size="small"] {
+  width: min(240px, 40%);
+  max-height: 32%;
+}
+
+.world-today[data-size="large"] {
+  width: min(560px, 70%);
+  max-height: 85%;
+}
+
+.world-today-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.world-today-controls {
+  display: flex;
+  flex-shrink: 0;
+  gap: 2px;
+}
+
+.world-today-controls button {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.world-today-controls button:hover:not(:disabled) {
+  background: #eef2ff;
+}
+
+.world-today-controls button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.world-today-body {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* 최소화: 제목 줄만 남기기 */
+.world-today.minimized {
+  width: auto;
+  max-height: none;
+}
+
+.world-today.minimized .world-today-body {
+  display: none;
+}
+
+.world-today.minimized .history-tab {
+  margin-bottom: 0;
+}
+
+/* 데스크톱: 첫 화면을 화면 전체에 꽉 차게 (지도가 남는 공간을 모두 차지) */
+@media (min-width: 768px) {
+  body.home {
+    padding: 0;
+  }
+
+  body.home .app.wide {
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    min-height: 100vh;
+    padding: 16px 24px 12px;
+    border-radius: 0;
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  body.home .map-section {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  body.home .map {
+    flex: 1;
+    min-height: 420px;
+  }
+
+  /* 지도는 상자 크기에 맞춰 가운데 정렬로 꽉 채우기 */
+  body.home .map svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  body.home .credit {
+    margin-top: 8px;
+  }
+}
+
+/* 휴대폰: 지도를 조금 더 크게, 확대 버튼과 오늘의 역사는 지도를 가리지 않게 지도 아래로 */
+@media (max-width: 480px) {
+  .app.wide {
+    padding: 20px 12px;
+  }
+
+  .map-zoom {
+    position: static;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 6px;
+  }
+
+  .map-zoom button {
+    width: 40px;
+    height: 36px;
+  }
+
+  /* 오늘의 역사: 화면 아래에 살짝만 보이는 "아래 시트".
+     위로 밀면(또는 손잡이를 누르면) 올라와서 화면 전체를 채우고, 손잡이를 아래로 밀면 다시 내려가요. */
+  .world-today,
+  .world-today[data-size] {
+    --peek: 68px; /* 접혀 있을 때 보이는 높이 */
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    width: auto;
+    height: 100dvh;
+    max-height: none;
+    padding: 0 16px 16px;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
+    background: #ffffff;
+    transform: translateY(calc(100% - var(--peek)));
+    transition: transform 0.3s ease;
+    touch-action: none; /* 손가락으로 끄는 동작을 페이지 스크롤 대신 시트가 받도록 */
+  }
+
+  .world-today.sheet-open {
+    transform: translateY(0);
+  }
+
+  .world-today.dragging {
+    transition: none;
+  }
+
+  /* 휴대폰에서는 데스크톱용 크기 버튼과 최소화를 쓰지 않아요 */
+  .world-today-controls {
+    display: none;
+  }
+
+  .world-today.minimized .world-today-body {
+    display: block;
+  }
+
+  .world-today-body {
+    flex: 1;
+    touch-action: pan-y; /* 펼친 뒤 목록은 위아래로 스크롤 */
+  }
+
+  /* 접혀 있는 시트에 가려지지 않게 페이지 아래쪽을 비워 두기 */
+  body.home {
+    padding-bottom: 68px;
+  }
+}
+
+/* 시트 손잡이 (휴대폰에서만 보여요) */
+.sheet-handle {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .sheet-handle {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0 8px;
+    border: none;
+    background: none;
+    cursor: grab;
+  }
+
+  .sheet-handle span {
+    width: 44px;
+    height: 5px;
+    border-radius: 999px;
+    background: #cbd5e1;
+  }
+}
+
+/* ---------- 수도 날씨 화면 ---------- */
 .back-link {
   display: inline-block;
   margin-bottom: 12px;

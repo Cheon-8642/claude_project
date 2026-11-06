@@ -1,17 +1,27 @@
 /* 날씨별 화면 연출 (effects.js가 body에 data-theme과 fx-on을 붙여 줍니다)
-   - data-theme="hot|rain|snow|fog" : 화면 색 (바로 적용)
-   - fx-on                          : 3초 뒤 켜지는 빗줄기·눈송이·안개 */
+   - data-theme="hot|rain|snow|fog|cloudy" : 화면 색 (바로 적용)
+   - fx-on                                 : 3초 뒤 켜지는 빗줄기·눈송이·안개
+   - 해당하는 날씨가 없으면 style.css의 기본 하늘색 */
 
 /* ---------- 1. 화면 색 ---------- */
 body {
   transition: background 1s;
 }
 
+/* 더위: 연한 빨강 */
 body[data-theme="hot"] {
-  background: linear-gradient(160deg, #ffc371, #ff5f1f);
+  background: linear-gradient(160deg, #ffd1d1, #ff8a8a);
 }
 body[data-theme="hot"] .app {
-  background: #fff7ed;
+  background: #fff5f5;
+}
+
+/* 흐림: 회색 */
+body[data-theme="cloudy"] {
+  background: linear-gradient(160deg, #e5e7eb, #a3aab4);
+}
+body[data-theme="cloudy"] .app {
+  background: #f8f9fa;
 }
 
 body[data-theme="rain"] {
@@ -28,11 +38,12 @@ body[data-theme="snow"] .app {
   background: #d9e6f2;
 }
 
+/* 안개: 짙은 회색 */
 body[data-theme="fog"] {
-  background: linear-gradient(160deg, #cfd4d9, #8e979f);
+  background: linear-gradient(160deg, #8a929b, #3f4650);
 }
 body[data-theme="fog"] .app {
-  background: #f3f4f6;
+  background: #eceef1;
 }
 
 /* ---------- 2. 화면 전체 층: 빗줄기, 눈송이, 안개 ---------- */

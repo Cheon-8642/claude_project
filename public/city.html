@@ -12,7 +12,7 @@
   <div id="fx-layer" class="fx-layer" aria-hidden="true"></div>
 
   <main class="app">
-    <a href="index.html" class="back-link">← 다른 도시 찾기</a>
+    <a href="index.html" class="back-link">← 다른 나라 찾기</a>
 
     <p id="source-badge" class="badge hidden"></p>
     <p id="preview-badge" class="badge preview hidden"></p>
@@ -39,8 +39,23 @@
       <div id="forecast" class="forecast"></div>
     </section>
 
+    <!-- 이 나라의 역사: 오늘의 역사가 먼저, 그 아래에 이번 주의 역사 -->
+    <section id="history-section" class="history-section">
+      <div class="history-block">
+        <h2 class="history-tab">오늘의 역사 <span id="today-label" class="history-when"></span></h2>
+        <p id="today-message" class="history-message">데이터를 찾는 중입니다.</p>
+        <ul id="today-list" class="history-list"></ul>
+      </div>
+      <div class="history-block">
+        <h2 class="history-tab">이번 주의 역사 <span id="week-label" class="history-when"></span></h2>
+        <p id="week-message" class="history-message">찾는 중입니다.</p>
+        <ul id="week-list" class="history-list"></ul>
+      </div>
+    </section>
+
     <footer class="credit">
-      날씨 정보: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>
+      날씨 정보: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> ·
+      역사 정보: <a href="https://www.wikidata.org/" target="_blank" rel="noopener">Wikidata</a>, 한국어 위키백과
     </footer>
   </main>
 
