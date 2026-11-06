@@ -3,7 +3,7 @@
 > PRD(Product Requirements Document)는 "무엇을, 왜, 어떻게 만드는지"를 정리한 제품 설명서입니다.
 > v2 변경: 기능을 핵심 시나리오 1개로 줄이고, 출처·한계를 "사용 데이터"로 합치고, 완료 기준을 직접 눌러 확인하는 문장으로 바꿨습니다.
 
-**배포 주소:** https://claudeproject-jet.vercel.app — 2026-10-30 완료 기준 5개 모두 통과 (예시 데이터 모드)
+**배포 주소:** https://claudeproject-jet.vercel.app — 2026-10-30 실제 데이터로 완료 기준 5개 모두 통과 (휴대폰 화면 크기, [docs/poc.md](docs/poc.md))
 
 ## 1. 문제
 

@@ -60,8 +60,9 @@ Open-Meteo 예보 ────────────────────�
 5. 배포 주소를 `README.md`와 `PRD.md`에 적고 GitHub에 올리기
 
 **진행 결과 (2026-10-30)**
-- 1~3번 완료. 배포 주소 https://claudeproject-jet.vercel.app 에서 완료 기준 5개 모두 통과.
-- 환경 변수 없이 배포되어 지금은 **예시 데이터 모드**다. 실제 날씨로 바꾸려면 Vercel Settings → Environment Variables에 `WEATHER_DATA_SOURCE=open-meteo`를 넣고 다시 배포한다.
+- 1~3번 완료. 배포 주소 https://claudeproject-jet.vercel.app
+- 처음에는 환경 변수 없이 배포되어 예시 데이터가 나왔다. Vercel Settings → Environment Variables에 `WEATHER_DATA_SOURCE=open-meteo`(Config, Production)를 넣고 Redeploy해서 **실제 데이터**로 바꿨다.
+- 실제 데이터, 휴대폰 화면 크기로 완료 기준 5개 모두 통과: [poc.md](poc.md)
 
 ## 7. 나중에 (첫 버전 확인 대상 아님, 코드는 이미 있으니 지우지 않음)
 
