@@ -46,7 +46,7 @@ npm run dev
 | 위치 | 역할 |
 |---|---|
 | `public/` | 화면 파일. `index.html`(첫 화면 세계지도), `city.html`(수도 날씨), `effects.*`(날씨 연출) |
-| `public/data/` | 미리 저장해 둔 데이터. `countries.json`(나라·수도·Wikidata 번호, Wikidata), `countries-110m.json`(세계지도 모양, Natural Earth) |
+| `public/data/` | 미리 저장해 둔 데이터. `countries.json`(나라·수도·Wikidata 번호, Wikidata), `countries-110m.json`(세계지도 모양, Natural Earth), `national-colours.json`(나라 색, 위키백과 National colours), `world-today.csv`(첫 화면 오늘의 역사), `country-history.csv`(강대국 이번 주 역사) |
 | `scripts/` | 데이터를 다시 만드는 스크립트. `node scripts/build-countries.mjs`를 실행하면 `countries.json`을 새로 받아요 |
 | `api/` | 서버 함수. 파일 하나가 주소 하나가 됩니다 (`api/weather.js` → `/api/weather`) |
 | `lib/` | 서버 함수가 함께 쓰는 코드와 데이터. `api/` 안에 두면 각각 서버 함수가 되어 버려서 따로 둡니다 |

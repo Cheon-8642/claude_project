@@ -216,19 +216,21 @@ h2 {
 }
 
 .map .country {
-  stroke: #ffffff;
-  stroke-width: 0.5;
+  stroke: #000000; /* 나라 경계선: 검은색 */
+  stroke-width: 0.6;
   vector-effect: non-scaling-stroke; /* 확대해도 경계선 굵기는 그대로 */
 }
 
+/* 나라 색은 app.js가 나라마다 그라데이션으로 칠해요 */
 .map .country.clickable {
-  fill: #9bb7e0;
   cursor: pointer;
 }
 
+/* 마우스를 올리면 조금 진하게 + 경계선 굵게 */
 .map .country.clickable:hover,
 .map .country.clickable:focus {
-  fill: #4364f7;
+  filter: brightness(0.82) saturate(1.3);
+  stroke-width: 1.6;
   outline: none;
 }
 

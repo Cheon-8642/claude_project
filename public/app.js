@@ -4,6 +4,7 @@
 // 데이터 파일 (public/data/)
 //   countries.json      : 나라 이름(한/영), 수도 이름, 수도 좌표 (Wikidata에서 미리 만들어 둠)
 //   countries-110m.json : 세계지도 나라 경계선 (Natural Earth, world-atlas)
+//   national-colours.json : 나라 색 (영어 위키백과 "National colours"의 첫 번째 색)
 
 const form = document.getElementById("search-form");
 const input = document.getElementById("country-input");
@@ -202,7 +203,39 @@ function showTooltip(text, event) {
   tooltip.style.top = `${event.clientY - box.top + 12}px`;
 }
 
-function drawMap(world) {
+// 나라 색 칠하기: 위키백과 "National colours" 표의 Primary 첫 번째 색(public/data/national-colours.json)을
+// 그대로 쓰되, 왼쪽 위는 조금 밝게 → 오른쪽 아래는 원래 색인 그라데이션으로 칠해요. (색깔 자체는 바뀌지 않아요)
+const LIGHT_SIDE = 0.75; // 왼쪽 위에 나라 색을 얼마나 남길지 (나머지는 흰색과 섞여 밝아져요)
+const DARK_SIDE = 1; // 오른쪽 아래 (1 = 나라 색 그대로)
+const NO_COLOR = ["#f1f5f9", "#cbd5e1"]; // 표에 색이 없는 나라: 연한 회색 그라데이션
+
+// 두 색을 섞기. 예: mixColor("#ff0000", "#ffffff", 0.5) → 분홍
+function mixColor(color, base, amount) {
+  const rgb = (hex) => {
+    const h = hex.replace("#", "");
+    const full = h.length === 3 ? [...h].map((c) => c + c).join("") : h;
+    return [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16));
+  };
+  const a = rgb(color);
+  const b = rgb(base);
+  return `rgb(${a.map((v, i) => Math.round(v * amount + b[i] * (1 - amount))).join(",")})`;
+}
+
+// 나라마다 그라데이션 하나씩 만들어 두고, 그 id를 돌려줘요.
+function addCountryGradient(defs, numeric, color) {
+  const id = `fill-${numeric}`;
+  const gradient = defs.append("linearGradient")
+    .attr("id", id)
+    .attr("x1", "0%").attr("y1", "0%")
+    .attr("x2", "100%").attr("y2", "100%");
+  gradient.append("stop").attr("offset", "0%")
+    .attr("stop-color", color ? mixColor(color, "#ffffff", LIGHT_SIDE) : NO_COLOR[0]);
+  gradient.append("stop").attr("offset", "100%")
+    .attr("stop-color", color ? mixColor(color, "#ffffff", DARK_SIDE) : NO_COLOR[1]);
+  return id;
+}
+
+function drawMap(world, nationalColours) {
   const byNumeric = new Map(countries.map((c) => [c.numeric, c]));
   const shapes = topojson.feature(world, world.objects.countries).features;
 
@@ -215,6 +248,7 @@ function drawMap(world) {
     .attr("viewBox", `0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`)
     .attr("role", "img")
     .attr("aria-label", "세계지도. 나라를 누르면 수도의 날씨를 볼 수 있어요.");
+  const defs = svg.append("defs"); // 나라별 그라데이션을 넣어 두는 곳
   const layer = svg.append("g");
 
   layer.append("path").attr("class", "sphere").attr("d", path({ type: "Sphere" }));
@@ -231,7 +265,9 @@ function drawMap(world) {
         el.attr("class", "country disabled");
         return;
       }
+      const gradientId = addCountryGradient(defs, shape.id, nationalColours[shape.id]?.color);
       el.attr("class", "country clickable")
+        .style("fill", `url(#${gradientId})`)
         .attr("tabindex", 0)
         .attr("role", "button")
         .attr("aria-label", `${country.name}, 수도 ${country.capital}`)
@@ -400,13 +436,15 @@ async function start() {
   setupWorldTodaySheet();
   loadWorldToday();
   try {
-    const [countryData, world] = await Promise.all([
+    const [countryData, world, nationalColours] = await Promise.all([
       fetch("data/countries.json").then((r) => r.json()),
       fetch("data/countries-110m.json").then((r) => r.json()),
+      // 나라 색은 없어도 지도는 그려지게 (없으면 모든 나라를 연한 회색으로)
+      fetch("data/national-colours.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
     ]);
     countries = countryData;
     document.getElementById("map-loading").remove();
-    drawMap(world);
+    drawMap(world, nationalColours);
   } catch {
     document.getElementById("map-loading").textContent = "지도를 불러오지 못했어요. 새로고침해 보세요.";
   }
